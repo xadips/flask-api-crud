@@ -76,11 +76,13 @@ def delete_todo(todo_id):
 
 @app.route('/api/v1/todo/<todo_id>', methods=['PUT'])
 def update_todo(todo_id):
-    todo = Todo.query.get_or_404(todo_id)
     data = request.get_json()
-    todo.id = data['id']
-    todo.title = data['title']
-    todo.note = data['note']
+    todo = Todo.query.get(todo_id)
+    if data.get('title'):
+        todo.title = data['title']
+    if data.get('note'):
+        todo.note = data['note']
+    db.session.add(todo)
     db.session.commit()
     output = []
     current = {}

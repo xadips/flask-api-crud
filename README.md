@@ -24,7 +24,9 @@ docker start api-container
 
 ## Usage
 
-POST http://127.0.0.1/api/v1/todo
+## POST
+
+http://127.0.0.1/api/v1/todo
 
 **REQUEST:**
 
@@ -50,7 +52,7 @@ $ curl "http://localhost:5000/api/v1/todo" -d '{"title":"Pabaigti Darba", "note"
 }
 ```
 
-### GET
+## GET
 
 http://127.0.0.1:5000/api/v1/todo/todo_id
 
@@ -76,7 +78,7 @@ $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X GET
 }
 ```
 
-### GET
+## GET
 
 http://127.0.0.1:5000/api/v1/todo
 
@@ -109,7 +111,36 @@ $ curl "http://localhost:5000/api/v1/todo" -X GET
 ]
 ```
 
-### DELETE
+## PUT
+
+http://127.0.0.1:5000/api/v1/todo/todo_id
+
+**REQUEST:**
+
+```json
+{
+  "title": "Kursinis Darbas",
+  "note": "Papildyti aprasa"
+}
+```
+
+For example:
+
+```bash
+curl http://localhost:5000/api/v1/todo/2 -d '{"title":"Kursinis Darbas", "note":"Papildyti aprasa"}' -H "Content-Type: application/json" -X PUT
+```
+
+**RESPONSE:**
+
+```json
+{
+  "id": 2,
+  "note": "Papildyti aprasa",
+  "title": "Kursinis Darbas"
+}
+```
+
+## DELETE
 
 http://127.0.0.1:5000/api/v1/todo/todo_id
 
