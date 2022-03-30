@@ -24,9 +24,7 @@ docker start api-container
 
 ## Usage
 
-## POST
-
-http://127.0.0.1/api/v1/todo
+### POST http://127.0.0.1/api/v1/todo
 
 **REQUEST:**
 
@@ -52,9 +50,7 @@ $ curl "http://localhost:5000/api/v1/todo" -d '{"title":"Pabaigti Darba", "note"
 }
 ```
 
-## GET
-
-http://127.0.0.1:5000/api/v1/todo/todo_id
+### GET http://127.0.0.1:5000/api/v1/todo/todo_id
 
 For example:
 
@@ -78,9 +74,7 @@ $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X GET
 }
 ```
 
-## GET
-
-http://127.0.0.1:5000/api/v1/todo
+### GET http://127.0.0.1:5000/api/v1/todo
 
 **REQUEST:**
 
@@ -111,9 +105,7 @@ $ curl "http://localhost:5000/api/v1/todo" -X GET
 ]
 ```
 
-## PUT
-
-http://127.0.0.1:5000/api/v1/todo/todo_id
+### PUT http://127.0.0.1:5000/api/v1/todo/todo_id
 
 **REQUEST:**
 
@@ -140,9 +132,7 @@ curl http://localhost:5000/api/v1/todo/2 -d '{"title":"Kursinis Darbas", "note":
 }
 ```
 
-## DELETE
-
-http://127.0.0.1:5000/api/v1/todo/todo_id
+### DELETE http://127.0.0.1:5000/api/v1/todo/todo_id
 
 **REQUEST:**
 
