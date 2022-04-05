@@ -1,6 +1,6 @@
-# flask-api-crud
+# flask-rest-api
 
-A simple CRUD python flask API using SQLite as a database.
+A simple REST API written in Python Flask using SQLite as a database.
 
 ## Database structure
 
@@ -24,7 +24,7 @@ docker start api-container
 
 ## Usage
 
-### POST http://127.0.0.1/api/v1/todo
+### POST http://127.0.0.1:5000/api/v1/todo
 
 **REQUEST:**
 
