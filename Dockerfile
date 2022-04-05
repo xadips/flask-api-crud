@@ -12,6 +12,4 @@ COPY /app.py /app
 
 COPY /templates /app/templates/
 
-COPY /todo.dbs /app
-
 CMD [ "python3", "app.py" ]
