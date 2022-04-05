@@ -8,7 +8,9 @@ A simple REST API written in Python Flask using SQLite as a database.
 CREATE TABLE todos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title VARCHAR(50) NOT NULL,
-    note VARCHAR(200) NOT NULL
+    note VARCHAR(200) NOT NULL,
+    completed BOOLEAN NOT NULL, DEFAULT=FALSE,
+    date_created DATETIME NOT NULL, DEFAULT=DATETIME.NOW
 );
 ```
 
@@ -24,6 +26,9 @@ docker start api-container
 
 ## Usage
 
+_Recommended to use included Postman collection._
+**Postman_call_collection.json**
+
 ### POST http://127.0.0.1:5000/api/v1/todo
 
 **REQUEST:**
@@ -31,34 +36,34 @@ docker start api-container
 ```json
 {
   "title": "Pavadinimas",
-  "note": "Užrašo žinutė"
+  "note": "Užrašo žinutė",
+  "completed": true
 }
 ```
+
+**completed** field is optional
 
 For example:
 
 ```bash
-$ curl "http://localhost:5000/api/v1/todo" -d '{"title":"Pabaigti Darba", "note":"Suprogramuoti Web Servisu pirma užduotį"}' -H "Content-Type: application/json" -X POST
+$ curl "http://localhost:5000/api/v1/todo" -d '{"title":"Pabaigti Darba", "note":"Suprogramuoti Web Servisu pirma užduotį", "completed":true}' -H "Content-Type: application/json" -X POST
 ```
 
 **RESPONSE:**
 
 ```json
 {
-  "note": "Suprogramuoti Web Servisu pirma u\u017eduot\u012f",
-  "title": "Pabaigti Darba"
+  "completed": true,
+  "date_created": "2022-04-05T22:33:14.388348",
+  "id": 3,
+  "note": "Užrašo žinutė",
+  "title": "Pavadinimas"
 }
 ```
 
-### GET http://127.0.0.1:5000/api/v1/todo/todo_id
+### GET http://127.0.0.1:5000/api/v1/todo/{todo_id}
 
 For example:
-
-**REQUEST**
-
-```json
-{}
-```
 
 ```bash
 $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X GET
@@ -68,19 +73,15 @@ $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X GET
 
 ```json
 {
-  "id": 1,
-  "note": "Suprogramuoti Web Servisu pirma u\u017eduot\u012f",
-  "title": "Pabaigti Darba"
+  "completed": true,
+  "date_created": "2022-04-05T23:44:42.886367",
+  "id": 2,
+  "note": "Test the created API using Postman",
+  "title": "Test the created API"
 }
 ```
 
 ### GET http://127.0.0.1:5000/api/v1/todo
-
-**REQUEST:**
-
-```json
-{}
-```
 
 For example:
 
@@ -93,52 +94,60 @@ $ curl "http://localhost:5000/api/v1/todo" -X GET
 ```json
 [
   {
-    "id": 2,
-    "note": "Suprogramuoti Web Servisu pirma u\u017eduot\u012f",
-    "title": "Pabaigti Darba"
+    "completed": true,
+    "date_created": "2022-04-05T23:44:42.884974",
+    "id": 1,
+    "note": "Create a Python Flask REST API",
+    "title": "Create an API"
   },
   {
+    "completed": true,
+    "date_created": "2022-04-05T23:44:42.886367",
+    "id": 2,
+    "note": "Test the created API using Postman",
+    "title": "Test the created API"
+  },
+  {
+    "completed": true,
+    "date_created": "2022-04-05T23:44:45.751970",
     "id": 3,
-    "note": "Ikelti suprogramuota darba i emokymus",
-    "title": "Ikelti darba"
+    "note": "Suprogramuoti Web Servisu pirma užduotį",
+    "title": "Pabaigti Darba"
   }
 ]
 ```
 
-### PUT http://127.0.0.1:5000/api/v1/todo/todo_id
+### PUT http://127.0.0.1:5000/api/v1/todo/{todo_id}
 
 **REQUEST:**
 
 ```json
 {
-  "title": "Kursinis Darbas",
-  "note": "Papildyti aprasa"
+  "title": "Pavadinimas",
+  "note": "Užrašo žinutė",
+  "completed": false
 }
 ```
 
 For example:
 
 ```bash
-curl http://localhost:5000/api/v1/todo/2 -d '{"title":"Kursinis Darbas", "note":"Papildyti aprasa"}' -H "Content-Type: application/json" -X PUT
+$ curl http://localhost:5000/api/v1/todo/2 -d '{"title":"Pavadinimas", "note":"Užrašo žinutė", "completed":false}' -H "Content-Type: application/json" -X PUT
 ```
 
 **RESPONSE:**
 
 ```json
 {
+  "completed": false,
+  "date_created": "2022-04-05T23:44:42.886367",
   "id": 2,
-  "note": "Papildyti aprasa",
-  "title": "Kursinis Darbas"
+  "note": "Užrašo žinutė",
+  "title": "Pavadinimas"
 }
 ```
 
-### DELETE http://127.0.0.1:5000/api/v1/todo/todo_id
-
-**REQUEST:**
-
-```json
-{}
-```
+### DELETE http://127.0.0.1:5000/api/v1/todo/{todo_id}
 
 For example:
 
@@ -146,12 +155,40 @@ For example:
 $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X DELETE
 ```
 
-**RESPONSE**
+**RESPONSE:**
 
 ```json
 {
-  "id": 1,
-  "note": "Suprogramuoti Web Servisu pirma u\u017eduot\u012f",
-  "title": "Pabaigti Darba"
+  "Success": "Resource deleted"
+}
+```
+
+### PATCH http://127.0.0.1:5000/api/v1/todo/{todo_id}
+
+**REQUEST:**
+
+Any field(title, note, completed)
+
+```json
+{
+  "completed": false
+}
+```
+
+For example:
+
+```bash
+$ curl http://localhost:5000/api/v1/todo/2 -d '{"completed":false}' -H "Content-Type: application/json" -X PATCH
+```
+
+**RESPONSE:**
+
+```json
+{
+  "completed": false,
+  "date_created": "2022-04-05T22:37:05.356035",
+  "id": 2,
+  "note": "Test the created API using Postman",
+  "title": "hello"
 }
 ```

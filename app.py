@@ -13,8 +13,9 @@ db.init_app(app)
 
 # TODO:
 # + Fix additional fields
-# PATCH method
-# Update documentation
+# + PATCH method
+# Add one more example resource
+# + Update documentation
 # MB add swagger
 # + non-required fields
 # + more return headers and return codes
@@ -122,7 +123,7 @@ def delete_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     db.session.delete(todo)
     db.session.commit()
-    return make_response(jsonify({"Success": "Todo deleted"}), 410)
+    return make_response(jsonify({"Success": "Resource deleted"}), 410)
 
 
 @app.route('/api/v1/todo/<int:todo_id>', methods=['PUT'])
@@ -133,7 +134,8 @@ def update_todo(todo_id):
     try:
         todo.title = data['title']
         todo.note = data['note']
-        todo.completed = data['completed']
+        if data.get('completed') is not None:
+            todo.completed = data['completed']
         db.session.commit()
     except Exception as e:
         return make_response(jsonify({"Error": "Bad Request"}), 401)
