@@ -88,7 +88,7 @@ def new_todo():
         title = data['title']
         note = data['note']
 
-        if data.get('completed'):
+        if data.get('completed') is not None:
             completed = data['completed']
         else:
             completed = False
@@ -122,7 +122,7 @@ def delete_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     db.session.delete(todo)
     db.session.commit()
-    return make_response(todo_schema.jsonify(todo), 410)
+    return make_response(jsonify({"Success": "Todo deleted"}), 410)
 
 
 @app.route('/api/v1/todo/<int:todo_id>', methods=['PUT'])
@@ -145,19 +145,23 @@ def update_todo(todo_id):
 def change_todo(todo_id):
     data = request.get_json()
     todo = Todo.query.get_or_404(int(todo_id))
-
     try:
         if data.get('title'):
             todo.title = data['title']
+
         if data.get('note'):
             todo.note = data['note']
-        if date.get('completed'):
+
+        # Need to use is not None since it is a boolean and it's value
+        # can be false therefore failing the check
+        if data.get('completed') is not None:
             todo.completed = data['completed']
+
         db.session.commit()
     except Exception as e:
         return make_response(jsonify({"Error": "Bad request"}), 401)
 
-    return todo.schema.jsonify(todo)
+    return todo_schema.jsonify(todo)
 
 
 @app.route('/')
