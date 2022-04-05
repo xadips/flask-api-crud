@@ -11,16 +11,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 db.init_app(app)
 
-# TODO:
-# + Fix additional fields
-# + PATCH method
-# Add one more example resource
-# + Update documentation
-# MB add swagger
-# + non-required fields
-# + more return headers and return codes
-# + return in jsons.
-
 ma = Marshmallow(app)
 
 
@@ -54,8 +44,11 @@ def initialize_db():
                          note="Create a Python Flask REST API", completed=True)
     default_todo2 = Todo(title="Test the created API",
                          note="Test the created API using Postman", completed=True)
+    default_todo3 = Todo(title="Present the created API",
+                         note="Present the created API to the teacher and get graded", completed=False)
     db.session.add(default_todo1)
     db.session.add(default_todo2)
+    db.session.add(default_todo3)
     db.session.commit()
 
 
