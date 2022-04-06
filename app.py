@@ -116,7 +116,7 @@ def delete_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     db.session.delete(todo)
     db.session.commit()
-    return make_response(jsonify({"Success": "Resource deleted"}), 410)
+    return make_response(jsonify({"Success": "Resource deleted"}), 204)
 
 
 @app.route('/api/v1/todo/<int:todo_id>', methods=['PUT'])
