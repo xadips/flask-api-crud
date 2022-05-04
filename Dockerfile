@@ -2,14 +2,12 @@ FROM python:3.10.4-buster
 
 EXPOSE 5000
 
-WORKDIR /app
+WORKDIR /server
 
-COPY requirements.txt /app
+COPY requirements.txt /server
 
 RUN pip install -r requirements.txt
 
-COPY /app.py /app
+COPY /server.py /server
 
-COPY /templates /app/templates/
-
-CMD [ "python3", "app.py" ]
+CMD [ "python3", "server.py" ]
