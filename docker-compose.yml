@@ -1,5 +1,5 @@
 services:
-  web:
+  todos:
     build: .
     command: python server.py
     ports:
@@ -8,7 +8,7 @@ services:
       - .:/code
     networks:
       - network
-  service:
+  songs:
     build: ./Songs-service-fix
     command: python app.py
     ports:

@@ -1,7 +1,10 @@
-from flask import Flask, jsonify, request, render_template, redirect, make_response
+from flask import Flask, jsonify, request, render_template, redirect, make_response, Response, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from datetime import datetime
+
+import json
+import requests
 
 port = 5000
 server = Flask(__name__)
@@ -13,6 +16,8 @@ db = SQLAlchemy(server)
 db.init_app(server)
 
 ma = Marshmallow(server)
+
+child_url = "http://songs:5000/"
 
 
 class Todo(db.Model):
@@ -108,6 +113,16 @@ def get_all():
     todos = Todo.query.all()
     output = todos_schema.dump(todos)
     return jsonify(output)
+
+
+@server.route('/api/v1/songs', methods=['GET'])
+def get_all_songs():
+    try:
+        songs = requests.get(child_url + "songs")
+    except requests.exceptions.RequestException as e:
+        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+
+    return jsonify(songs.json())
 
 
 @server.route('/api/v1/todo/<int:todo_id>', methods=['GET'])
