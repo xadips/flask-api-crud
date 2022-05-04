@@ -53,7 +53,7 @@ def initialize_db():
     default_todo2 = Todo(title="Test the created API",
                          note="Test the created API using Postman", completed=True, song_id=4)
     default_todo3 = Todo(title="Present the created API",
-                         note="Present the created API to the teacher and get graded", completed=False, song_id=13)
+                         note="Present the created API to the teacher and get graded", completed=False, song_id=12)
     db.session.add(default_todo1)
     db.session.add(default_todo2)
     db.session.add(default_todo3)
@@ -106,6 +106,29 @@ def new_todo():
         return result
     except Exception as e:
         return make_response(jsonify({"Error": "Bad Request"}), 400)
+
+
+@server.route('/api/v1/songs', methods=['POST'])
+def new_song():
+    data = request.get_json(force=True)
+    try:
+        response = requests.post(child_url + "songs", json=data,)
+    except requests.exceptions.RequestException as e:
+        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+
+    return make_response(jsonify({"Success": response.text}), 201)
+
+
+@server.route('/api/v1/songs/<int:todo_id>', methods=["GET"])
+def get_song_by_todo(todo_id):
+    todos = Todo.query.all()
+    output = todos_schema.dump(todos)
+    for todo in output:
+        if todo['id'] == todo_id:
+            response = requests.get(
+                child_url + "songs/" + str(todo['song_id']))
+            return jsonify(response.json())
+    return make_response(jsonify({"Failure": "There is no song with such an id"}), 404)
 
 
 @server.route('/api/v1/todo', methods=['GET'])
