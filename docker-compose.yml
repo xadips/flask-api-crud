@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    command: python server.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    networks:
+      - network
+  service:
+    build: ./Songs-service-fix
+    command: python app.py
+    ports:
+      - "5001:5000"
+    networks:
+      - network
+networks:
+  network:

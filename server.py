@@ -2,16 +2,17 @@ from flask import Flask, jsonify, request, render_template, redirect, make_respo
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from datetime import datetime
+
 port = 5000
-app = Flask(__name__)
+server = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.dbs'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+server.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.dbs'
+server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-db.init_app(app)
+db = SQLAlchemy(server)
+db.init_app(server)
 
-ma = Marshmallow(app)
+ma = Marshmallow(server)
 
 
 class Todo(db.Model):
@@ -21,6 +22,7 @@ class Todo(db.Model):
     completed = db.Column(db.Boolean, nullable=False, default=False)
     date_created = db.Column(
         db.DateTime, nullable=False, default=datetime.now)
+    song_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return 'id {}'.format(self.id)
@@ -28,7 +30,8 @@ class Todo(db.Model):
 
 class TodoSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'note', 'completed', 'date_created')
+        fields = ('id', 'title', 'note', 'completed',
+                  'date_created', 'song_id')
 
 
 todo_schema = TodoSchema(many=False)
@@ -41,11 +44,11 @@ db.create_all()
 
 def initialize_db():
     default_todo1 = Todo(title="Create an API",
-                         note="Create a Python Flask REST API", completed=True)
+                         note="Create a Python Flask REST API", completed=True, song_id=1)
     default_todo2 = Todo(title="Test the created API",
-                         note="Test the created API using Postman", completed=True)
+                         note="Test the created API using Postman", completed=True, song_id=4)
     default_todo3 = Todo(title="Present the created API",
-                         note="Present the created API to the teacher and get graded", completed=False)
+                         note="Present the created API to the teacher and get graded", completed=False, song_id=13)
     db.session.add(default_todo1)
     db.session.add(default_todo2)
     db.session.add(default_todo3)
@@ -55,39 +58,41 @@ def initialize_db():
 initialize_db()
 
 
-@app.errorhandler(400)
+@server.errorhandler(400)
 def handle_400_error(_error):
     return make_response(jsonify({'Error': 'Misunderstood'}), 400)
 
 
-@app.errorhandler(401)
+@server.errorhandler(401)
 def handle_401_error(_error):
     return make_response(jsonify({'Error': 'Unauthorised'}), 401)
 
 
-@app.errorhandler(404)
+@server.errorhandler(404)
 def handle_404_error(_error):
     return make_response(jsonify({'Error': 'Resource not found'}), 404)
 
 
-@app.errorhandler(500)
+@server.errorhandler(500)
 def handle_500_error(_error):
     return make_response(jsonify({'Error': 'Why u do this'}), 500)
 
 
-@app.route('/api/v1/todo', methods=['POST'])
+@server.route('/api/v1/todo', methods=['POST'])
 def new_todo():
     try:
         data = request.get_json()
         title = data['title']
         note = data['note']
+        song_id = data['song_id']
 
         if data.get('completed') is not None:
             completed = data['completed']
         else:
             completed = False
 
-        todo = Todo(title=title, note=note, completed=completed)
+        todo = Todo(title=title, note=note,
+                    completed=completed, song_id=song_id)
         db.session.add(todo)
         db.session.flush()
         result = make_response(todo_schema.jsonify(todo), 201)
@@ -98,20 +103,20 @@ def new_todo():
         return make_response(jsonify({"Error": "Bad Request"}), 400)
 
 
-@app.route('/api/v1/todo', methods=['GET'])
+@server.route('/api/v1/todo', methods=['GET'])
 def get_all():
     todos = Todo.query.all()
     output = todos_schema.dump(todos)
     return jsonify(output)
 
 
-@app.route('/api/v1/todo/<int:todo_id>', methods=['GET'])
+@server.route('/api/v1/todo/<int:todo_id>', methods=['GET'])
 def get_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     return todo_schema.jsonify(todo)
 
 
-@app.route('/api/v1/todo/<int:todo_id>', methods=['DELETE'])
+@server.route('/api/v1/todo/<int:todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     db.session.delete(todo)
@@ -119,7 +124,7 @@ def delete_todo(todo_id):
     return make_response(jsonify({"Success": "Resource deleted"}), 204)
 
 
-@app.route('/api/v1/todo/<int:todo_id>', methods=['PUT'])
+@server.route('/api/v1/todo/<int:todo_id>', methods=['PUT'])
 def update_todo(todo_id):
     data = request.get_json()
     todo = Todo.query.get_or_404(int(todo_id))
@@ -136,7 +141,7 @@ def update_todo(todo_id):
     return todo_schema.jsonify(todo)
 
 
-@app.route('/api/v1/todo/<int:todo_id>', methods=['PATCH'])
+@server.route('/api/v1/todo/<int:todo_id>', methods=['PATCH'])
 def change_todo(todo_id):
     data = request.get_json()
     todo = Todo.query.get_or_404(int(todo_id))
@@ -159,10 +164,10 @@ def change_todo(todo_id):
     return todo_schema.jsonify(todo)
 
 
-@app.route('/')
+@server.route('/')
 def index():
     return ("<h1>All TODOS in</h1><a href='http://localhost:%d/api/v1/todo'>All todos</a>" % port)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port, debug=True)
+    server.run(host='0.0.0.0', port=port, debug=True)
