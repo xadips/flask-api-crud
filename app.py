@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, render_template, redirect, make_respo
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from datetime import datetime
-
+port = 5000
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.dbs'
@@ -161,9 +161,8 @@ def change_todo(todo_id):
 
 @app.route('/')
 def index():
-    todos = Todo.query.all()
-    return render_template('index.html')
+    return ("<h1>All TODOS in</h1><a href='http://localhost:%d/api/v1/todo'>All todos</a>" % port)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)
