@@ -134,6 +134,7 @@ def update_todo(todo_id):
         todo.note = data['note']
         if data.get('completed') is not None:
             todo.completed = data['completed']
+        todo.song_id = data['song_id']
         db.session.commit()
     except Exception as e:
         return make_response(jsonify({"Error": "Bad Request"}), 401)
@@ -157,6 +158,9 @@ def change_todo(todo_id):
         if data.get('completed') is not None:
             todo.completed = data['completed']
 
+        if data.get('song_id'):
+            todo.note = data['song_id']
+
         db.session.commit()
     except Exception as e:
         return make_response(jsonify({"Error": "Bad request"}), 401)
@@ -166,7 +170,7 @@ def change_todo(todo_id):
 
 @server.route('/')
 def index():
-    return ("<h1>All TODOS in</h1><a href='http://localhost:%d/api/v1/todo'>All todos</a>" % port)
+    return ("<h1>All TODOS in</h1><a href='http://localhost:%d/api/v1/todo'>Click here</a>" % port)
 
 
 if __name__ == '__main__':
