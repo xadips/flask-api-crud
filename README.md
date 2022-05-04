@@ -18,7 +18,7 @@ CREATE TABLE todos (
 ## Running
 
 ```bash
-git clone "https://github.com/xadips/flask-api-crud.git"
+git clone --recursive "https://github.com/xadips/flask-api-crud.git"
 cd flask-api-crud
 docker-compose build
 docker-compose up -d
