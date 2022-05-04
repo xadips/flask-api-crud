@@ -1,15 +1,24 @@
 {
 	"info": {
-		"_postman_id": "2c1781bd-8320-4e88-a6b5-94f70c586dd0",
+		"_postman_id": "aee18b4a-c75b-4ad4-8183-439250376ddc",
 		"name": "Python Flask Rest API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get all todos",
+			"name": "Create new todo",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Pavadinimas\",\n  \"note\": \"Užrašo žinutė\",\n  \"completed\": true,\n  \"song_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/api/v1/todo",
 					"protocol": "http",
@@ -24,6 +33,39 @@
 						"api",
 						"v1",
 						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new song",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Pavadinimas\",\n  \"artis\": \"Atlikėjas\",\n  \"date_created\": \"2018-02-03\",\n  \"link\": \"https://google.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/v1/songs\n",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"songs\n"
 					]
 				}
 			},
@@ -55,19 +97,10 @@
 			"response": []
 		},
 		{
-			"name": "Create new todo",
+			"name": "Get all todos",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"title\": \"Pavadinimas\",\n  \"note\": \"Užrašo žinutė\",\n  \"completed\": true\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/api/v1/todo",
 					"protocol": "http",
@@ -88,6 +121,55 @@
 			"response": []
 		},
 		{
+			"name": "Get all songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/v1/songs",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a todo's song by todo's ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/v1/songs/{{todo.id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"songs",
+						"{{todo.id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Edit todo",
 			"request": {
 				"method": "PUT",
@@ -100,7 +182,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Pavadinimas\",\n  \"note\": \"Užrašo žinutė\",\n  \"completed\": false\n}",
+					"raw": "{\n  \"title\": \"Pavadinimas\",\n  \"note\": \"Užrašo žinutė\",\n  \"completed\": false,\n  \"song_id\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"

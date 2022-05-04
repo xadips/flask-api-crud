@@ -52,40 +52,33 @@ _Example_
 $ curl "http://localhost:5000/api/v1/todo" -d '{"title":"Pabaigti Darba", "note":"Suprogramuoti Web Servisu pirma užduotį", "completed":true}' -H "Content-Type: application/json" -X POST
 ```
 
-_Response_
+http://127.0.0.1:5000/api/v1/songs
+
+_Request_
 
 ```json
 {
-  "completed": true,
-  "date_created": "2022-04-05T22:33:14.388348",
-  "id": 3,
-  "note": "Užrašo žinutė",
-  "title": "Pavadinimas",
-  "song_id": 1
+  "name": "Pavadinimas",
+  "artis": "Atlikėjas",
+  "date_created": "2018-02-03",
+  "link": "https://google.com"
 }
+```
+
+_Example_
+
+```bash
+$ curl http://localhost:5000/songs -d '{"name":"daina", "artist":"muzikantas", "date_created":"2018-02-03", "link":"https://www.google.com"}' -H "Content-Type: application/json" -X POST
 ```
 
 ### GET
 
 http://127.0.0.1:5000/api/v1/todo/{todo_id}
 
-For example:
+_Example_
 
 ```bash
 $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X GET
-```
-
-_Request_
-
-```json
-{
-  "completed": true,
-  "date_created": "2022-04-05T23:44:42.886367",
-  "id": 2,
-  "note": "Test the created API using Postman",
-  "song_id": 1,
-  "title": "Test the created API"
-}
 ```
 
 http://127.0.0.1:5000/api/v1/todo
@@ -96,35 +89,20 @@ _Example_
 $ curl "http://localhost:5000/api/v1/todo" -X GET
 ```
 
-_Response_
+http://127.0.0.1:5000/api/v1/songs
 
-```json
-[
-  {
-    "completed": true,
-    "date_created": "2022-04-05T23:44:42.884974",
-    "id": 1,
-    "note": "Create a Python Flask REST API",
-    "song_id": 1,
-    "title": "Create an API"
-  },
-  {
-    "completed": true,
-    "date_created": "2022-04-05T23:44:42.886367",
-    "id": 2,
-    "note": "Test the created API using Postman",
-    "song_id": 4,
-    "title": "Test the created API"
-  },
-  {
-    "completed": true,
-    "date_created": "2022-04-05T23:44:45.751970",
-    "id": 3,
-    "note": "Suprogramuoti Web Servisu pirma užduotį",
-    "song_id": 13,
-    "title": "Pabaigti Darba"
-  }
-]
+_Example_
+
+```bash
+$ curl http://localhost:5000/songs -X GET
+```
+
+http://127.0.0.1:5000/api/v1/songs/{todo_id}
+
+_Example_
+
+```bash
+$ curl http://127.0.0.1:5000/api/v1/songs/1 -X GET
 ```
 
 ### PUT
@@ -148,19 +126,6 @@ _Example_
 $ curl http://localhost:5000/api/v1/todo/2 -d '{"title":"Pavadinimas", "note":"Užrašo žinutė", "completed":false}' -H "Content-Type: application/json" -X PUT
 ```
 
-_Response_
-
-```json
-{
-  "completed": false,
-  "date_created": "2022-04-05T23:44:42.886367",
-  "id": 2,
-  "note": "Užrašo žinutė",
-  "song_id": 13,
-  "title": "Pavadinimas"
-}
-```
-
 ### DELETE
 
 http://127.0.0.1:5000/api/v1/todo/{todo_id}
@@ -169,14 +134,6 @@ For example:
 
 ```bash
 $ curl "http://127.0.0.1:5000/api/v1/todo/1" -X DELETE
-```
-
-_Response_
-
-```json
-{
-  "Success": "Resource deleted"
-}
 ```
 
 ### PATCH
@@ -197,17 +154,4 @@ _Example_
 
 ```bash
 $ curl http://localhost:5000/api/v1/todo/2 -d '{"completed":false}' -H "Content-Type: application/json" -X PATCH
-```
-
-_Response_
-
-```json
-{
-  "completed": false,
-  "date_created": "2022-04-05T22:37:05.356035",
-  "id": 2,
-  "note": "Test the created API using Postman",
-  "song_id": 4,
-  "title": "hello"
-}
 ```
