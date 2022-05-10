@@ -326,6 +326,31 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete todo with song",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/v1/all/{{todo.id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"all",
+						"{{todo.id}}"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
