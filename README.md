@@ -71,6 +71,30 @@ _Example_
 $ curl http://localhost:5000/songs -d '{"name":"daina", "artist":"muzikantas", "date_created":"2018-02-03", "link":"https://www.google.com"}' -H "Content-Type: application/json" -X POST
 ```
 
+http://127.0.0.1:5000/api/v1/all
+
+_Request_
+
+```json
+{
+  "title": "Pavadinimas",
+  "note": "Užrašo žinutė",
+  "song": {
+    "name": "Pavadinimas",
+    "artist": "Atlikėjas",
+    "date_created": "2018-02-03",
+    "link": "https://google.com"
+  },
+  "completed": true
+}
+```
+
+_Example_
+
+```bash
+$ curl http://localhost:5000/songs -d '{"title": "Pavadinimas", "note": "Užrašo žinutė", "song": {"name": "Pavadinimas", "artist": "Atlikėjas", "date_created": "2018-02-03", "link": "https://google.com"}, "completed": true}' -H "Content-Type: application/json" -X POST
+```
+
 ### GET
 
 http://127.0.0.1:5000/api/v1/todos/{todo_id}

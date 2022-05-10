@@ -119,6 +119,36 @@ def new_song():
     return make_response(jsonify({"Success": response.text}), 201)
 
 
+@server.route('/api/v1/all', methods=['POST'])
+def new_todo_phone():
+    data = request.get_json(force=True)
+    try:
+        response = requests.post(child_url + "songs", json=data['song'])
+    except requests.exceptions.RequestException as e:
+        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+
+    try:
+        title = data['title']
+        note = data['note']
+        song_id = response.headers['id']
+
+        if data.get('completed') is not None:
+            completed = data['completed']
+        else:
+            completed = False
+
+        todo = Todo(title=title, note=note,
+                    completed=completed, song_id=song_id)
+        db.session.add(todo)
+        db.session.flush()
+        result = make_response(todo_schema.jsonify(todo), 201)
+        result.headers['Content-Location'] = '/api/v1/todo/{}'.format(todo.id)
+        db.session.commit()
+        return result
+    except Exception as e:
+        return make_response(jsonify({"Error": "Bad Request"}), 400)
+
+
 @server.route('/api/v1/songs/<int:todo_id>', methods=["GET"])
 def get_song_by_todo(todo_id):
     todos = Todo.query.all()
@@ -136,8 +166,6 @@ def get_all():
     todos = Todo.query.all()
     output = todos_schema.dump(todos)
     return jsonify(output)
-
-# TODO: kompozicijos bendras post, bendras get, saveikauja tarpusavyje
 
 
 @server.route('/api/v1/songs', methods=['GET'])
