@@ -31,7 +31,7 @@ _Recommended to use included Postman collection._
 
 ### POST
 
-http://127.0.0.1:5000/api/v1/todo
+http://127.0.0.1:5000/api/v1/todos
 
 _Request_
 
@@ -49,7 +49,7 @@ _Request_
 _Example_
 
 ```bash
-$ curl "http://localhost:5000/api/v1/todo" -d '{"title":"Pabaigti Darba", "note":"Suprogramuoti Web Servisu pirma užduotį", "completed":true}' -H "Content-Type: application/json" -X POST
+$ curl "http://localhost:5000/api/v1/todos" -d '{"title":"Pabaigti Darba", "note":"Suprogramuoti Web Servisu pirma užduotį", "completed":true}' -H "Content-Type: application/json" -X POST
 ```
 
 http://127.0.0.1:5000/api/v1/songs
@@ -73,20 +73,20 @@ $ curl http://localhost:5000/songs -d '{"name":"daina", "artist":"muzikantas", "
 
 ### GET
 
-http://127.0.0.1:5000/api/v1/todo/{todo_id}
+http://127.0.0.1:5000/api/v1/todos/{todo_id}
 
 _Example_
 
 ```bash
-$ curl "http://127.0.0.1:5000/api/v1/todo/1" -X GET
+$ curl "http://127.0.0.1:5000/api/v1/todos/1" -X GET
 ```
 
-http://127.0.0.1:5000/api/v1/todo
+http://127.0.0.1:5000/api/v1/todos
 
 _Example_
 
 ```bash
-$ curl "http://localhost:5000/api/v1/todo" -X GET
+$ curl "http://localhost:5000/api/v1/todos" -X GET
 ```
 
 http://127.0.0.1:5000/api/v1/songs
@@ -107,7 +107,7 @@ $ curl http://127.0.0.1:5000/api/v1/songs/1 -X GET
 
 ### PUT
 
-http://127.0.0.1:5000/api/v1/todo/{todo_id}
+http://127.0.0.1:5000/api/v1/todos/{todo_id}
 
 _Request_
 
@@ -123,22 +123,22 @@ _Request_
 _Example_
 
 ```bash
-$ curl http://localhost:5000/api/v1/todo/2 -d '{"title":"Pavadinimas", "note":"Užrašo žinutė", "completed":false}' -H "Content-Type: application/json" -X PUT
+$ curl http://localhost:5000/api/v1/todos/2 -d '{"title":"Pavadinimas", "note":"Užrašo žinutė", "completed":false, "song_id": 13}' -H "Content-Type: application/json" -X PUT
 ```
 
 ### DELETE
 
-http://127.0.0.1:5000/api/v1/todo/{todo_id}
+http://127.0.0.1:5000/api/v1/todos/{todo_id}
 
 For example:
 
 ```bash
-$ curl "http://127.0.0.1:5000/api/v1/todo/1" -X DELETE
+$ curl "http://127.0.0.1:5000/api/v1/todos/1" -X DELETE
 ```
 
 ### PATCH
 
-http://127.0.0.1:5000/api/v1/todo/{todo_id}
+http://127.0.0.1:5000/api/v1/todos/{todo_id}
 
 _Request_
 
@@ -153,5 +153,5 @@ Any field(title, note, completed, song_id)
 _Example_
 
 ```bash
-$ curl http://localhost:5000/api/v1/todo/2 -d '{"completed":false}' -H "Content-Type: application/json" -X PATCH
+$ curl http://localhost:5000/api/v1/todos/2 -d '{"completed":false}' -H "Content-Type: application/json" -X PATCH
 ```

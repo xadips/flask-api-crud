@@ -20,7 +20,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todo",
+					"raw": "http://127.0.0.1:5000/api/v1/todos",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -32,7 +32,7 @@
 					"path": [
 						"api",
 						"v1",
-						"todo"
+						"todos"
 					]
 				}
 			},
@@ -77,7 +77,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todo/{{todo.id}}",
+					"raw": "http://127.0.0.1:5000/api/v1/todos/{{todo.id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -89,7 +89,7 @@
 					"path": [
 						"api",
 						"v1",
-						"todo",
+						"todos",
 						"{{todo.id}}"
 					]
 				}
@@ -102,7 +102,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todo",
+					"raw": "http://127.0.0.1:5000/api/v1/todos",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -114,7 +114,7 @@
 					"path": [
 						"api",
 						"v1",
-						"todo"
+						"todos"
 					]
 				}
 			},
@@ -190,7 +190,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todo/{{todo.id}}",
+					"raw": "http://127.0.0.1:5000/api/v1/todos/{{todo.id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -202,7 +202,7 @@
 					"path": [
 						"api",
 						"v1",
-						"todo",
+						"todos",
 						"{{todo.id}}"
 					]
 				}
@@ -230,7 +230,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todo/{{todo.id}}",
+					"raw": "http://127.0.0.1:5000/api/v1/todos/{{todo.id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -242,7 +242,7 @@
 					"path": [
 						"api",
 						"v1",
-						"todo",
+						"todos",
 						"{{todo.id}}"
 					]
 				}
@@ -255,7 +255,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todo/{{todo.id}}",
+					"raw": "http://127.0.0.1:5000/api/v1/todos/{{todo.id}}",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -267,7 +267,7 @@
 					"path": [
 						"api",
 						"v1",
-						"todo",
+						"todos",
 						"{{todo.id}}"
 					]
 				}

@@ -83,7 +83,7 @@ def handle_500_error(_error):
     return make_response(jsonify({'Error': 'Why u do this'}), 500)
 
 
-@server.route('/api/v1/todo', methods=['POST'])
+@server.route('/api/v1/todos', methods=['POST'])
 def new_todo():
     try:
         data = request.get_json()
@@ -131,11 +131,13 @@ def get_song_by_todo(todo_id):
     return make_response(jsonify({"Failure": "There is no song with such an id"}), 404)
 
 
-@server.route('/api/v1/todo', methods=['GET'])
+@server.route('/api/v1/todos', methods=['GET'])
 def get_all():
     todos = Todo.query.all()
     output = todos_schema.dump(todos)
     return jsonify(output)
+
+# TODO: kompozicijos bendras post, bendras get, saveikauja tarpusavyje
 
 
 @server.route('/api/v1/songs', methods=['GET'])
@@ -148,13 +150,13 @@ def get_all_songs():
     return jsonify(songs.json())
 
 
-@server.route('/api/v1/todo/<int:todo_id>', methods=['GET'])
+@server.route('/api/v1/todos/<int:todo_id>', methods=['GET'])
 def get_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     return todo_schema.jsonify(todo)
 
 
-@server.route('/api/v1/todo/<int:todo_id>', methods=['DELETE'])
+@server.route('/api/v1/todos/<int:todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     db.session.delete(todo)
@@ -162,7 +164,7 @@ def delete_todo(todo_id):
     return make_response(jsonify({"Success": "Resource deleted"}), 204)
 
 
-@server.route('/api/v1/todo/<int:todo_id>', methods=['PUT'])
+@server.route('/api/v1/todos/<int:todo_id>', methods=['PUT'])
 def update_todo(todo_id):
     data = request.get_json()
     todo = Todo.query.get_or_404(int(todo_id))
@@ -180,7 +182,7 @@ def update_todo(todo_id):
     return todo_schema.jsonify(todo)
 
 
-@server.route('/api/v1/todo/<int:todo_id>', methods=['PATCH'])
+@server.route('/api/v1/todos/<int:todo_id>', methods=['PATCH'])
 def change_todo(todo_id):
     data = request.get_json()
     todo = Todo.query.get_or_404(int(todo_id))
@@ -208,7 +210,7 @@ def change_todo(todo_id):
 
 @server.route('/')
 def index():
-    return ("<h1>All TODOS in</h1><a href='http://localhost:%d/api/v1/todo'>Click here</a>" % port)
+    return ("<h1>All TODOS in</h1><a href='http://localhost:%d/api/v1/todos'>Click here</a>" % port)
 
 
 if __name__ == '__main__':
