@@ -205,6 +205,21 @@ def delete_todo(todo_id):
     return make_response(jsonify({"Success": "Resource deleted"}), 204)
 
 
+@server.route('/api/v1/all/<int:todo_id>', methods=['DELETE'])
+def delete_todo_and_song(todo_id):
+    todo = Todo.query.get_or_404(int(todo_id))
+    output = todo_schema.dump(todo)
+    try:
+        response = requests.delete(
+            child_url + "songs/" + str(output['song_id']))
+    except requests.exceptions.RequestException as e:
+        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+
+    db.session.delete(todo)
+    db.session.commit()
+    return make_response(jsonify({"Success": "Resource deleted"}), 204)
+
+
 @server.route('/api/v1/todos/<int:todo_id>', methods=['PUT'])
 def update_todo(todo_id):
     data = request.get_json()

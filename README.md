@@ -168,6 +168,16 @@ For example:
 $ curl "http://127.0.0.1:5000/api/v1/todos/1" -X DELETE
 ```
 
+### DELETE
+
+http://127.0.0.1:5000/api/v1/all/{todo_id}
+
+For example:
+
+```bash
+$ curl "http://127.0.0.1:5000/all/v1/todos/1" -X DELETE
+```
+
 ### PATCH
 
 http://127.0.0.1:5000/api/v1/todos/{todo_id}
