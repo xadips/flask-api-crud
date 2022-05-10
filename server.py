@@ -184,6 +184,19 @@ def get_todo(todo_id):
     return todo_schema.jsonify(todo)
 
 
+@server.route('/api/v1/all/<int:todo_id>', methods=['GET'])
+def get_todo_with_song(todo_id):
+    todo = Todo.query.get_or_404(int(todo_id))
+    output = todo_schema.dump(todo)
+    try:
+        response = requests.get(child_url + "songs/" + str(output['song_id']))
+    except requests.exceptions.RequestException as e:
+        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+
+    output['song_id'] = response.json()
+    return jsonify(output)
+
+
 @server.route('/api/v1/todos/<int:todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))

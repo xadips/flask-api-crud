@@ -129,6 +129,14 @@ _Example_
 $ curl http://127.0.0.1:5000/api/v1/songs/1 -X GET
 ```
 
+http://127.0.0.1:5000/api/v1/all/{todo_id}
+
+_Example_
+
+```bash
+$ curl http://127.0.0.1:5000/api/v1/all/1 -X GET
+```
+
 ### PUT
 
 http://127.0.0.1:5000/api/v1/todos/{todo_id}
