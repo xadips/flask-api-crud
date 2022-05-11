@@ -165,7 +165,13 @@ def get_song_by_todo(todo_id):
 def get_all():
     todos = Todo.query.all()
     output = todos_schema.dump(todos)
-    return jsonify(output)
+    if request.args.get('expand'):
+        for todo in output:
+            response = requests.get(
+                child_url + "songs/" + str(todo['song_id']))
+            todo['song_id'] = response.json()
+
+    return make_response(jsonify(output), 200)
 
 
 @server.route('/api/v1/songs', methods=['GET'])
@@ -188,13 +194,14 @@ def get_todo(todo_id):
 def get_todo_with_song(todo_id):
     todo = Todo.query.get_or_404(int(todo_id))
     output = todo_schema.dump(todo)
+    song_id = output['song_id']
     try:
         response = requests.get(child_url + "songs/" + str(output['song_id']))
+        output['song_id'] = response.json()
     except requests.exceptions.RequestException as e:
-        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+        output['song_id'] = song_id
 
-    output['song_id'] = response.json()
-    return jsonify(output)
+    return make_response(jsonify(output), 200)
 
 
 @server.route('/api/v1/todos/<int:todo_id>', methods=['DELETE'])

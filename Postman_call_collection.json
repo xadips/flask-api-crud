@@ -78,7 +78,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Pavadinimas\",\n  \"note\": \"Užrašo žinutė\",\n  \"song\": {\n  \"name\": \"Pavadinimas\",\n  \"artist\": \"Atlikėjas\",\n  \"date_created\": \"2018-02-03\",\n  \"link\": \"https://google.com\"\n  },\n  \"completed\": true\n}",
+					"raw": "{\n  \"title\": \"Naujas todo\",\n  \"note\": \"Užrašo žinutė\",\n  \"song\": {\n  \"name\": \"Pavadinimas\",\n  \"artist\": \"Atlikėjas\",\n  \"date_created\": \"2018-02-03\",\n  \"link\": \"https://google.com\"\n  },\n  \"completed\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -135,7 +135,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/todos",
+					"raw": "http://127.0.0.1:5000/api/v1/todos?expand=true",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -148,6 +148,12 @@
 						"api",
 						"v1",
 						"todos"
+					],
+					"query": [
+						{
+							"key": "expand",
+							"value": "true"
+						}
 					]
 				}
 			},
@@ -208,7 +214,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/v1/all/{{todo.id}}",
+					"raw": "http://127.0.0.1:5000/api/v1/all/5",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -221,7 +227,7 @@
 						"api",
 						"v1",
 						"all",
-						"{{todo.id}}"
+						"5"
 					]
 				}
 			},
