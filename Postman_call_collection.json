@@ -53,13 +53,18 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/songs",
+					"raw": "http://127.0.0.1:5000/api/v1/songs",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"127",
+						"0",
+						"0",
+						"1"
 					],
 					"port": "5000",
 					"path": [
+						"api",
+						"v1",
 						"songs"
 					]
 				}
@@ -256,6 +261,40 @@
 						"api",
 						"v1",
 						"todos",
+						"{{todo.id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch todo with song",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Testas\",\n  \"note\": \"TEstas 2\",\n  \"song\": {\n    \"name\": \"Pavadinimas\",\n    \"artist\": \"Atlikėjas\",\n    \"date_created\": \"2018-02-03\",\n    \"link\": \"https://google.com\"\n  },\n  \"completed\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/v1/all/{{todo.id}}",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"all",
 						"{{todo.id}}"
 					]
 				}

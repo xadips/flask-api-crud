@@ -158,6 +158,32 @@ _Example_
 $ curl http://localhost:5000/api/v1/todos/2 -d '{"title":"Pavadinimas", "note":"Užrašo žinutė", "completed":false, "song_id": 13}' -H "Content-Type: application/json" -X PUT
 ```
 
+### PUT
+
+http://127.0.0.1:5000/api/v1/all/{todo_id}
+
+_Request_
+
+```json
+{
+  "title": "Testas",
+  "note": "TEstas 2",
+  "song": {
+    "name": "Pavadinimas",
+    "artist": "Atlikėjas",
+    "date_created": "2018-02-03",
+    "link": "https://google.com"
+  },
+  "completed": true
+}
+```
+
+_Example_
+
+```bash
+$ curl http://localhost:5000/api/v1/all/2 -d '{"title": "Testas", "note": "TEstas 2", "song": {"name": "Pavadinimas", "artist": "Atlikėjas", "date_created": "2018-02-03", "link": "https://google.com"}, "completed": true}' -H "Content-Type: application/json" -X PUT
+```
+
 ### DELETE
 
 http://127.0.0.1:5000/api/v1/todos/{todo_id}

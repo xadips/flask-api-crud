@@ -235,7 +235,33 @@ def update_todo(todo_id):
     except Exception as e:
         return make_response(jsonify({"Error": "Bad Request"}), 401)
 
-    return todo_schema.jsonify(todo)
+    return make_response(todo_schema.jsonify(todo), 200)
+
+
+@server.route('/api/v1/all/<int:todo_id>', methods=['PUT'])
+def update_todo_song(todo_id):
+    data = request.get_json(force=True)
+    todo = Todo.query.get_or_404(int(todo_id))
+    output = todo_schema.dump(todo)
+
+    try:
+        response = requests.put(
+            child_url + "songs/" + str(output['song_id']), json=data['song'])
+    except requests.exceptions.RequestException as e:
+        return make_response(jsonify({"Failure": "Failed to connect to server"}), 503)
+
+    try:
+        todo.title = data['title']
+        todo.note = data['note']
+        if data.get('completed') is not None:
+            todo.completed = data['completed']
+        output = todo_schema.dump(todo)
+        output['song_id'] = response.json()
+        db.session.commit()
+    except Exception as e:
+        return make_response(jsonify({"Error": "Bad Request"}), 401)
+
+    return make_response(jsonify(output), 200)
 
 
 @server.route('/api/v1/todos/<int:todo_id>', methods=['PATCH'])
@@ -259,9 +285,9 @@ def change_todo(todo_id):
 
         db.session.commit()
     except Exception as e:
-        return make_response(jsonify({"Error": "Bad request"}), 401)
+        return make_response(jsonify({"Error": "Bad request"}), 418)
 
-    return todo_schema.jsonify(todo)
+    return make_response(todo_schema.jsonify(todo), 200)
 
 
 @server.route('/')
