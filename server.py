@@ -167,9 +167,13 @@ def get_all():
     output = todos_schema.dump(todos)
     if request.args.get('expand'):
         for todo in output:
-            response = requests.get(
-                child_url + "songs/" + str(todo['song_id']))
-            todo['song_id'] = response.json()
+            song_id = todo['song_id']
+            try:
+                response = requests.get(
+                    child_url + "songs/" + str(todo['song_id']))
+                todo['song_id'] = response.json()
+            except requests.exceptions.RequestException as e:
+                todo['song_id'] = song_id
 
     return make_response(jsonify(output), 200)
 
